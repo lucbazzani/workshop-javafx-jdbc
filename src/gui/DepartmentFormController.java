@@ -66,17 +66,16 @@ public class DepartmentFormController implements Initializable {
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
-		
 		try {
 			entity = getFormData();
 			service.saveOrUpdate(entity);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		}
-		catch(ValidationException e) {
+		catch (ValidationException e) {
 			setErrorMessages(e.getErrors());
 		}
-		catch (DbException e){
+		catch (DbException e) {
 			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
@@ -92,7 +91,7 @@ public class DepartmentFormController implements Initializable {
 		
 		ValidationException exception = new ValidationException("Validation error");
 		
-		obj.setId(Utils.tryParseToInt(txtId.getId()));
+		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		
 		if (txtName.getText() == null || txtName.getText().trim().equals("")) {
 			exception.addError("name", "Field can't be empty");
@@ -115,14 +114,13 @@ public class DepartmentFormController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 	}
-
+	
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtName, 30);
 	}
 	
 	public void updateFormData() {
-
 		if (entity == null) {
 			throw new IllegalStateException("Entity was null");
 		}
